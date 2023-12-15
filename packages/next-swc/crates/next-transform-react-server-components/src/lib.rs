@@ -101,7 +101,9 @@ impl<C: Comments> ReactServerComponents<C> {
                 (msg, span)
             }
             RSCErrorKind::NextRscErrClientImport((source, span)) => {
-                let is_page_dir = self
+                // [NOTE]: in turbopack currently only type of AppRsc runs this transform,
+                // so it won't hit pages_dir case
+                let is_app_dir = self
                     .app_dir
                     .as_ref()
                     .map(|app_dir| {
@@ -113,7 +115,7 @@ impl<C: Comments> ReactServerComponents<C> {
                     })
                     .unwrap_or_default();
 
-                let msg = if is_page_dir {
+                let msg = if !is_app_dir {
                     format!("You're importing a component that needs {}. That only works in a Server Component which is not supported in the pages/ directory. Read more: https://nextjs.org/docs/getting-started/react-essentials#server-components\n\n", source)
                 } else {
                     format!("You're importing a component that needs {}. That only works in a Server Component but one of its parents is marked with \"use client\", so it's a Client Component.\nLearn more: https://nextjs.org/docs/getting-started/react-essentials\n\n", source)
