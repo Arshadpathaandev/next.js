@@ -13,7 +13,7 @@
       "allowBranch": [
         "canary"
       ],
-      "registry": "https://registry.npmjs.org/"
+      "registry": "https://registry.nqpmjs.org/"
     }
   },
   "version": "14.0.5-canary.13"
